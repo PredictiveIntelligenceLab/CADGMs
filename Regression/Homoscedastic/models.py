@@ -48,10 +48,10 @@ class Regression:
         self.Y_tf = tf.placeholder(tf.float32, shape=(None, self.Y_dim))
         self.Z_tf = tf.placeholder(tf.float32, shape=(None, self.Z_dim))
         
-        # Symmetric VAE loss (to be minimized)
+        # Generator (to be minimized)
         self.G_loss, self.KL_loss, self.recon_loss  = self.compute_KL_loss(self.X_tf, self.Y_tf, self.Z_tf)
         
-        # Discriminator loss
+        # Discriminator loss (to be minimized)
         self.T_loss  = self.compute_T_loss(self.X_tf, self.Y_tf, self.Z_tf)
         
         self.sample = self.sample_generator(self.X_tf, self.Z_tf)
