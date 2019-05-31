@@ -5,6 +5,8 @@ This paper was accepted by Computational Mechanics.
 
 - Yibo, Yang, and Paris Perdikaris. "[Conditional deep surrogate models for stochastic, high-dimensional, and multi-fidelity systems.](https://arxiv.org/abs/1901.04878)" arXiv preprint arXiv:1901.04878 (2019).
 
+For the high dimensional Burgers example, the data is too large that we are not able to provide here, but you can find them in: https://drive.google.com/file/d/1n4a5Bivt6INq2xHSlVByZaJn-lB0mImK/view?usp=sharing
+
 
 ## Citation
 ```
