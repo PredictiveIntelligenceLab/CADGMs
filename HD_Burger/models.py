@@ -155,23 +155,31 @@ class CADGM_HD:
         return Y  # M x 1
 
     def compute_G_loss(self, Y, T, Z): # M x 1 x 128, M x 1 x 1, M x 32 x 1
+        # Broadcast the label t as a vector having same size with latent variable
         tt = T.repeat(1, self.Z_dim, 1)
+        # Decoder: p(y|x,z)
         Y_pred = self.net_decoder(Z, tt)
         ttt = T.repeat(1, 1, 128)
+        # Encoder: q(z|x,y)
         Z_pred = self.net_encoder(Y_pred, ttt)
+        # Discriminator loss
         T_pred = self.net_discriminator(Y_pred, ttt)
-        
+        # Compute the KL-divergence
         KL = torch.mean(T_pred)
+        # Entropic regularizaiton
         log_q = - torch.mean((Z - Z_pred)**2)
+        # Reconstruction loss
         log_p = torch.mean((Y - Y_pred)**2)
-
+        # Generator loss
         loss = KL + (1 - self.lam)*log_q + self.beta * log_p
         return loss, KL, (1 - self.lam)*log_q, log_p
 
     def compute_D_loss(self, Y, T, Z):
         tt = T.repeat(1, self.Z_dim, 1)
+        # Decoder: p(y|x,z)
         Y_pred = self.net_decoder(Z, tt)
         ttt = T.repeat(1, 1, 128)
+        # Discriminator loss
         T_real = F.sigmoid(self.net_discriminator(Y, ttt))
         T_fake = F.sigmoid(self.net_discriminator(Y_pred, ttt))
 
@@ -187,7 +195,7 @@ class CADGM_HD:
         T_batch = T[idx,:,:]        
         return Y_batch, T_batch
     
-    # Trains the model by minimizing the MSE loss
+    # Trains the model by minimizing the loss
     def train(self, nIter = 10000, batch_size = 64):
         
         start_time = timeit.default_timer()
@@ -199,14 +207,18 @@ class CADGM_HD:
             # Reset gradients for next step
             for k1 in range(1):
               self.optimizer_D.zero_grad()
+              # Discriminator loss
               loss_D, real, fake = self.compute_D_loss(Y_batch, T_batch, Z_batch)
               loss_D.backward()
+              # Train op for discriminator
               self.optimizer_D.step()
 
             for k2 in range(1):
               self.optimizer_G.zero_grad()
+              # Generator loss
               loss_G, KL, log_q, log_p = self.compute_G_loss(Y_batch, T_batch, Z_batch)
               loss_G.backward()
+              # Train op for generator
               self.optimizer_G.step() 
             
             # Print
@@ -237,6 +249,7 @@ class CADGM_HD:
         tt = T_star.repeat(1, self.Z_dim, 1)
         Y_star = self.net_decoder(Z, tt)
         Y_star = Y_star.cpu().data.numpy()
+        # De-normalize the data
         Y_star = Y_star * self.Ystd + self.Ymean
         return Y_star
 
