@@ -50,7 +50,7 @@ class CADGM_Multi:
         self.Y_L_tf = tf.placeholder(tf.float32, shape=(None, self.Y_dim))
         self.Z_tf = tf.placeholder(tf.float32, shape=(None, self.Z_dim))
         
-        # Symmetric VAE loss (to be minimized)
+        # Generator loss
         self.G_loss, self.KL_loss, self.recon_loss  = self.compute_KL_loss(self.X_tf, self.Y_H_tf, self.Y_L_tf, self.Z_tf)
         
         # Discriminator loss
