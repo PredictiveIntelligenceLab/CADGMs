@@ -3,7 +3,7 @@ We present a probabilistic deep learning methodology that enables the constructi
 
 This paper was published on Computational Mechanics.
 
-- Yibo, Yang, and Paris Perdikaris. "[Conditional deep surrogate models for stochastic, high-dimensional, and multi-fidelity systems.](https://link.springer.com/article/10.1007/s00466-019-01718-y)" Computational Mechanics volume 64, pages417–434(2019).
+- Yibo, Yang, and Paris Perdikaris. "[Conditional deep surrogate models for stochastic, high-dimensional, and multi-fidelity systems.](https://link.springer.com/article/10.1007/s00466-019-01718-y)", Computational Mechanics, volume 64, pages417–434(2019).
 
 For the high dimensional Burgers example, the data is too large that we are not able to provide here, but you can find them in: https://drive.google.com/file/d/1n4a5Bivt6INq2xHSlVByZaJn-lB0mImK/view?usp=sharing
 
